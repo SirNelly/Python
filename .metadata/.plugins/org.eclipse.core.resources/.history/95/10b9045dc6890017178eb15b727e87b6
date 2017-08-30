@@ -1,0 +1,93 @@
+import os.path
+from shutil import copy2
+from shutil import move
+
+print("Release xDrive")
+
+xDrive = "X:\Document Control\Colson Group Drawings"
+oldRevX = (xDrive + "\Old Revisions")
+desktop = "C:\\Users\\nelson.wagner\\Desktop"
+printUpdates = (desktop + "\\Print Updates")
+documents = "C:\\Users\\nelson.wagner\\Documents"
+output = (desktop + "\\output.txt")
+printInfo = ["null"]*3
+printList = []
+typo = "first"
+run = "y"
+
+while run == "y":
+    firstPN = input("Part Number: ")
+    if "batch" in firstPN.lower():
+        prints = int(input("Number of prints: "))
+        printInfo = ["null"]*prints
+        for x in range(0, prints):
+            pn = input("Part Number: ")
+            oldRev = input("Old Revision Letter: ")
+            newRev = input("New Revision Letter: ")
+            printInfo[x] = [pn, oldRev, newRev]  
+    
+        for list in printInfo:
+            printList.append(list)
+    else:
+        printInfo[0] = firstPN
+        printInfo[1] = input("Old Revision Letter: ")
+        printInfo[2] = input("New Revison Letter: ")
+        printList.append(printInfo)
+    for list in printList:
+        pn = list[0]
+        oldRev = list[1]
+        newRev = list[2]
+        if "cg" in pn.lower():
+            pn = (pn + ".000")
+            if oldRev == newRev:
+                typo = input("Your Revisions Are The Same, Is This Correct? (Y/N) ")
+                while "n" in typo.lower():
+                    print("Please Check Your Revisions")
+                    oldRev = input("Old Revision Letter: ")
+                    newRev = input("New Revision Letter: ")
+                    if newRev == oldRev:
+                        continue
+                    else:
+                        typo = "y"
+                        break
+        newPrint = (pn + "_" + newRev + ".pdf")
+        oldPrint = (pn + "_" + oldRev + ".pdf")
+        oldPrintLegacy = (pn + ".pdf")
+        newPrintPath = (printUpdates + "\\" + newPrint)
+        oldPrintPath = (xDrive + "\\" + oldPrint)
+        oldPrintLegacyPath = (xDrive + "\\" + oldPrintLegacy)
+    while os.path.isfile(newPrintPath) == False:
+        print(newPrint + " Doesn't Exist, Please Check Your Spelling")
+        pn = input("Part Number: ")
+        newRev = input("New Revision Letter: ")
+        newPrint = (pn + "_" + newRev + ".pdf")
+        newPrintPath = (printUpdates + "\\" + newPrint)
+    while os.path.isfile(oldPrintPath) == False:
+        if os.path.isfile(oldPrintLegacyPath) == True:
+            oldPrint = oldPrintLegacy
+            oldPrintPath = oldPrintLegacyPath
+            break
+        newRelease = input("Is This A New Release? (Y/N) ")
+        if "y" in newRelease.lower():
+            copy2(newPrintPath, xDrive)
+            print(newPrint, "has been released!")
+            break
+        else:
+            print(oldPrint + "Doesn't Exist")
+            oldRev = input("Old Revision Letter: ")
+            oldPrint = (pn + "_" + oldRev + ".pdf")
+            oldPrintLegacy = (pn + ".pdf")
+            oldPrintPath = (xDrive + "\\" + oldPrint)
+            oldPrintLegacyPath = (xDrive + "\\" + oldPrintLegacy)
+            continue 
+    if "y" in typo.lower():
+        os.remove(oldPrintPath)
+        copy2(newPrintPath, xDrive)
+        print(newPrint, "has been released!")
+    else:
+        move(oldPrintPath, oldRevX)
+        copy2(newPrintPath, xDrive)
+        print(newPrint, "has been released!")
+    clearPrint = len(printList)
+    del printList[0:int(clearPrint)]
+    run = input("Do You Have More Prints? (Y/N) ")

@@ -1,0 +1,84 @@
+import os.path
+from shutil import copy2
+from shutil import move
+
+xDrive = "X:\Document Control\Colson Group Drawings"
+oldRevX = (xDrive + "\Old Revisions")
+desktop = "C:\\Users\\nelson.wagner\\Desktop"
+printUpdates = (desktop + "\\Print Updates")
+documents = "C:\\Users\\nelson.wagner\\Documents"
+output = (desktop + "\\output.txt")
+printInfo = []
+printList = []
+typo = "first"
+run = "y"
+
+class Drawing:
+    def __init__(self, pn, oldRev, newRev, typo):
+        self.pn = pn
+        self.oldRev = oldRev
+        self.newRev = newRev
+        self.typo = typo
+    def cgCheck(self):
+        if "cg" in self.pn.lower():
+            self.pn = (self.pn + ".000")
+    def revCheck(self):
+        if self.oldRev == self.newRev:
+            self.typo = input("Your Revisions Are The Same, Is This Correct? (Y/N) ")
+            while "n" in typo.lower():
+                print("Please Check Your Revisions")
+                oldRev = input("Old Revision Letter: ")
+                newRev = input("New Revision Letter: ")
+                if newRev == oldRev:
+                    continue
+                else:
+                    typo = "y"
+                    break     
+while "y" in run.lower():
+    pn = input("Part Number: ")
+    oldRev = input("Old Revision Letter: ")
+    newRev = input("New Revision Letter: ")
+    tempDrawing = Drawing(pn, oldRev, newRev, typo)
+    printList.append(tempDrawing)
+    run = input("More Drawings? (Y/N) ")
+for object in printList:
+    object.cgCheck()
+    object.revCheck()
+    newPrint = (object.pn + "_" + object.newRev + ".pdf")
+    newPrintPath = (printUpdates + "\\" + newPrint)
+    oldPrint = (object.pn + "_" + object.oldRev + ".pdf")
+    oldPrintLegacy = (object.pn + ".pdf")
+    oldPrintPath = (xDrive + "\\" + oldPrint)
+    oldPrintLegacyPath = (xDrive + "\\" + oldPrintLegacy)
+    while os.path.isfile(newPrintPath) == False:
+        print(newPrint + " Doesn't Exist, Please Check Your Spelling")
+        object.pn = input("Part Number: ")
+        object.newRev = input("New Revision Letter: ")
+        newPrint = (object.pn + "_" + newRev + ".pdf")
+        newPrintPath = (printUpdates + "\\" + newPrint)
+    while os.path.isfile(oldPrintPath) == False:
+        if os.path.isfile(oldPrintLegacyPath) == True:
+            oldPrint = oldPrintLegacy
+            oldPrintPath = oldPrintLegacyPath
+            break
+        newRelease = input("Is This A New Release? (Y/N) ")
+        if "y" in newRelease.lower():
+            copy2(newPrintPath, xDrive)
+            print(newPrint, "has been released!")
+            break
+        else:
+            print(oldPrint + "Doesn't Exist")
+            oldRev = input("Old Revision Letter: ")
+            oldPrint = (object.pn + "_" + oldRev + ".pdf")
+            oldPrintLegacy = (object.pn + ".pdf")
+            oldPrintPath = (xDrive + "\\" + oldPrint)
+            oldPrintLegacyPath = (xDrive + "\\" + oldPrintLegacy)
+            continue 
+    if "y" in object.typo.lower():
+        os.remove(oldPrintPath)
+        copy2(newPrintPath, xDrive)
+        print(newPrint, "has been released!")
+    else:
+        move(oldPrintPath, oldRevX)
+        copy2(newPrintPath, xDrive)
+        print(newPrint, "has been released!")

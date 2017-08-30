@@ -1,0 +1,86 @@
+-- VERSION_4
+-- START DISKCACHE_2
+C:\Users\nelson.wagner\My Documents\Python\.metadata\.plugins\org.eclipse.core.resources\.projects\Python\com.python.pydev.analysis\v2_indexcache
+Print_Directory|1502135319376068000|C:\Users\nelson.wagner\Documents\Python\Print_Directory.py
+Release_xDrive|1504039650939045000|C:\Users\nelson.wagner\Documents\Python\Release_xDrive.py
+drawing_Rename|1503592017606179000|C:\Users\nelson.wagner\Documents\Python\drawing_Rename.py
+Empty_Print_Updates|1501706694838454000|C:\Users\nelson.wagner\Documents\Python\Empty_Print_Updates.py
+Move_ECN|1502135359089068000|C:\Users\nelson.wagner\Documents\Python\Move_ECN.py
+Open_Model|1504019609840218000|C:\Users\nelson.wagner\Documents\Python\Open_Model.py
+Open_Drawing|1502296094913223000|C:\Users\nelson.wagner\Documents\Python\Open_Drawing.py
+practiceclass|1503686148731686000|C:\Users\nelson.wagner\Documents\Python\practiceclass.py
+-- END DISKCACHE
+-- START DICTIONARY
+14
+2=Print_Directory
+9=Drawing
+1=drawing_Rename
+8=Move_ECN
+12=Drawing.oldPrompt
+10=Drawing.__init__
+11=Drawing.newPrompt
+6=Release_xDrive
+3=Empty_Print_Updates
+5=Open_Model
+7=Open_Drawing
+14=Drawing.typoCheck
+13=Drawing.pnPrompt
+4=practiceclass
+-- END DICTIONARY
+-- START TREE 1
+41
+a|3|a!11@a!19@a!27@
+arr|1|arrayOfDrawings!35@
+ass|1|assy!43@
+che|1|checkType!42@
+del|2|deletePath!27@delete!27@
+des|4|desktop!19@desktop!27@desktop!51@desktop!11@
+dn|1|dn!59@
+dnp|2|dnPrint!59@dnPath!59@
+dnt|1|dnTemp!59@
+doc|1|documents!51@
+dra|7|drawings!11@drawing!11@Drawing!33@drawingPath!27@drawingRaw!11@drawing!27@Drawing!49@
+dri|1|drivePath!42@
+ecn|3|ecnPath!67@ecn!67@ecnTemp!67@
+ext|1|extensions!42@
+f|3|f!11@f!27@f!19@
+fol|1|folder!19@
+go|1|go!27@
+ite|1|item!11@
+j|1|j!19@
+jdr|2|jDrive!19@jDriveTemp!43@
+new|3|newRev!11@newRev!35@newPaths!50@
+num|1|number!35@
+old|4|oldPaths!50@oldRev!35@oldPath!11@oldRevX!51@
+out|4|output!51@output!27@output!19@output!11@
+pn|2|pn!35@pn!11@
+pnp|2|pnPath!11@pnPrompt!50@
+pri|7|printInfo!51@printlist!59@printUpdates!27@printList!51@prints!27@printUpdates!51@printUpdates!11@
+pro|1|prompt!42@
+rem|1|removals!27@
+rep|1|repeat!43@
+run|1|run!51@
+scr|1|scrap!11@
+siz|1|size!11@
+tem|2|tempDrawing!51@tempDrawing!35@
+tic|3|ticker!27@ticker!11@ticker2!27@
+upd|1|updates!27@
+x|1|x!11@
+xdr|5|xDrive!51@xDrive!27@xDrive!67@xDrive!59@xDrive!43@
+y|1|y!11@
+yea|1|year!67@
+z|1|z!11@
+-- END TREE
+-- START TREE 2
+10
+__i|2|__init__!9&34@__init__!9&50@
+ful|1|fullPrompt!9&50@
+new|5|newRev!10&51@newPrompt!9&50@newRev!11&51@newRelease!10&51@newRev!10&35@
+num|1|number!10&35@
+old|4|oldRev!10&51@oldRev!12&51@oldRev!10&35@oldPrompt!9&50@
+pn|2|pn!10&51@pn!13&51@
+pnp|1|pnPrompt!9&50@
+rel|1|Release!9&50@
+rev|1|revPrompt!9&50@
+typ|3|typo!10&51@typo!14&51@typoCheck!9&50@
+-- END TREE

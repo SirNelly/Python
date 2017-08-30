@@ -1,0 +1,177 @@
+import os.path
+from shutil import copy2
+from shutil import move
+
+print("Release xDrive")
+
+xDrive = "X:\Document Control\Colson Group Drawings"
+oldRevX = (xDrive + "\Old Revisions")
+desktop = "C:\\Users\\nelson.wagner\\Desktop"
+printUpdates = (desktop + "\\Print Updates")
+documents = "C:\\Users\\nelson.wagner\\Documents"
+output = (desktop + "\\output.txt")
+prints = 0
+lines = 1
+loop = "y"
+again = "n"
+typo = "first"
+
+class Drawing:
+    def __init__(self, number, oldRev, newRev, cg):
+        self.number = number
+        self.oldRev = oldRev
+        self.newRev = newRev
+        self.cg = cg
+class DrawingB: #Used for batch release
+    def __init__(self, number, oldRev, newRev):
+        self.number = number
+        self.oldRev = oldRev
+        self.newRev = newRev
+
+firstPN = input("Part Number: ")
+
+if "batch" in firstPN.lower():
+    prints = int(input("Number of prints: "))
+    loop = "n"
+    ticker = 1
+    batchList = []
+    ticker2 = 0
+    line = 0
+    while ticker <= prints:
+        pnTemp = input("Part Number: ")
+        if "cg" in pnTemp.lower():
+            if ".000" in pnTemp.lower():
+                pn = pnTemp
+            else:
+                pn = (pnTemp + ".000")
+        else:
+            pn = pnTemp
+        batchList.append(pn)
+        batchList.append(input("Old Revision Letter: "))
+        batchList.append(input("New Revision Letter: "))
+        ticker += 1
+
+    prints -= 1
+    
+    while ticker2 <= prints:
+        line2 = int(line + 1)
+        line3 = int(line + 2)
+
+        drawing = DrawingB(batchList[int(line)] , batchList[int(line2)], batchList[int(line3)])
+        newPrint = (drawing.number + "_" + drawing.newRev + ".pdf")
+        oldPrint = (drawing.number + "_" + drawing.oldRev + ".pdf")
+        newPrintPath = (printUpdates + "\\" + newPrint)
+        oldPrintPath = (xDrive + "\\" + oldPrint)
+        
+        move(oldPrintPath, oldRevX)
+        copy2(newPrintPath, xDrive)
+        
+        print(drawing.number, " has been released!")
+
+        ticker2 += 1
+        line += 3
+
+while "y" in loop.lower():
+    drawing = Drawing(firstPN, input("Old Revision Letter: "), input ("New Revision Letter: "), "null")
+    if "cg" in drawing.number.lower():
+        if ".000" in drawing.number.lower():
+            drawing.number = drawing.number
+        else:
+            drawing.number = (drawing.number + ".000")
+    if drawing.oldRev==drawing.newRev:
+        typo = input("Your Revisions Are The Same, Is This Correct? (Y/N) ")
+        while "n" in typo.lower():
+            input("Please Check Your Revisions")
+            drawing.oldRev = input("Old Revision Letter: ")
+            drawing.newRev = input("New Revision Letter: ")
+            if drawing.newRev==drawing.oldRev:
+                continue
+            else:
+                typo = "y"
+                break
+    newPrint = (drawing.number + "_" + drawing.newRev + ".pdf")
+    oldPrint = (drawing.number + "_" + drawing.oldRev + ".pdf")
+    oldPrintLegacy = (drawing.number + ".pdf")
+    newPrintPath = (printUpdates + "\\" + newPrint)
+    oldPrintPath = (xDrive + "\\" + oldPrint)
+    oldPrintLegacyPath = (xDrive + "\\" + oldPrintLegacy)
+    if os.path.isfile(newPrintPath) == False:
+        input("New Revision Doesn't Exist, Please Check Your Spelling")
+        continue
+    if os.path.isfile(oldPrintPath) == False:
+        if os.path.isfile(oldPrintLegacyPath) == True:
+            oldPrint = oldPrintLegacy
+            oldPrintPath = oldPrintLegacyPath
+        else:
+            newRelease = input("Is This A New Release? (Y/N) ")
+            if "y" in newRelease.lower():
+                copy2(newPrintPath, xDrive)
+                print(newPrint, "has been released!")
+                again = input("Do You Have More Prints? (Y/N) ")
+                loop = "n"
+                break
+            else:
+                input("Check your Old Revision")
+                continue
+    if "y" in typo.lower():
+        os.remove(oldPrintPath)
+        copy2(newPrintPath, xDrive)
+        print(newPrint, "has been released!")
+        again = input("Do You Have More Prints? (Y/N) ")
+        loop = "n"
+        break
+    else:
+        move(oldPrintPath, oldRevX)
+        copy2(newPrintPath, xDrive)
+        print(newPrint, "has been released!")
+        again = input("Do You Have More Prints? (Y/N) ")
+        loop = "n"
+
+while "y" in again.lower():
+    typo = "first"
+    drawing2 = Drawing(input("Part Number: "), input("Old Revision Letter: "), input("New Revision Letter: "), "null")
+    if "cg" in drawing2.number.lower():
+        drawing2.number = (drawing2.number + ".000")
+    if drawing2.oldRev==drawing2.newRev:
+        typo = input("Your Revisions Are The Same, Is This Correct? (Y/N) ")
+        while "n" in typo.lower():
+            input("Please Check Your Revisions")
+            drawing2.oldRev = input("Old Revision Letter: ")
+            drawing2.newRev = input("New Revision Letter: ")
+            if drawing2.newRev==drawing2.oldRev:
+                continue
+            else:
+                typo = "y"
+                break
+    newPrint = (drawing2.number + "_" + drawing2.newRev + ".pdf")
+    oldPrint = (drawing2.number + "_" + drawing2.oldRev + ".pdf")
+    newPrintPath = (printUpdates + "\\" + newPrint)
+    oldPrintPath = (xDrive + "\\" + oldPrint)
+
+    if os.path.isfile(newPrintPath) == True:
+        print()
+    else:
+        input("New Revision Doesn't Exist, Please Check Your Spelling")
+        continue
+
+    if os.path.isfile(oldPrintPath) == True:
+        print()
+    else:
+        newRelease = input("Is This A New Release? (Y/N) ")
+        if "y" in newRelease.lower():
+            copy2(newPrintPath, xDrive)
+            print(newPrint, "has been released!")
+            again = input("Do You Have More Prints? (Y/N) ")
+        else:
+            input("Check your Old Revision")
+            break
+    if "y" in typo.lower():
+        os.remove(oldPrintPath)
+        copy2(newPrintPath, xDrive)
+        print(newPrint, "has been released!")
+        again = input("Do You Have More Prints? (Y/N) ")
+    else:
+        move(oldPrintPath, oldRevX)
+        copy2(newPrintPath, xDrive)
+        print(newPrint, "has been released!")
+        again = input("Do You Have More Prints? (Y/N) ")
